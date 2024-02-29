@@ -19,3 +19,15 @@ avance de diagrama de flujo
 Subir commits al repositorio para tener un control
 Realizar el cronograma de los avances
 Realizar la presentación sobre el funcionamiento y avances del algoritmo
+
+
+2.-Backend
+
+Objetivos Generales: Desarrollar la solución del laberinto
+
+Objetivos Particulares:
+Realizar el diagrama de flujo
+crear elementos interactivos en el laberinto (paredes,caminos,trivias,teleports,salida)
+Rectificar los datasets por parte del desarrollador frontend
+Mostrar laberinto con las funciones completadas sin GUI 
+
