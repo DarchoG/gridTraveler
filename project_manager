@@ -1,0 +1,25 @@
+Frontend:
+Funciones de generación de laberinto:
+"Agregadas funciones para generar y mostrar el laberinto en el frontend."
+Descripción: Se añadieron las funciones generarMatriz e imprimirArreglo al frontend para 
+generar y mostrar el laberinto en la interfaz gráfica. Estas funciones son esenciales 
+para la representación visual del laberinto descrito en el proyecto, donde los 
+valores de la matriz representan las paredes y los caminos del laberinto.
+Funciones de generación de caminos:
+"Implementadas funciones para generar caminos en el laberinto."
+Descripción: Se incorporaron las funciones generarSalida y generarCamino al frontend para generar caminos 
+válidos en el laberinto. Estas funciones son cruciales para la estrategia de "divide and conquer" utilizada 
+en el proyecto, ya que permiten la creación de caminos dentro del laberinto que deben ser explorados en busca de la salida.
+
+Backend:
+Clase Laberinto y métodos de generación:
+"Añadida clase Laberinto para el backend con métodos de generación."
+Descripción: Se agregó la clase Laberinto al backend, la cual incluye métodos para generar el laberinto y manejar la 
+lógica del juego. Esta clase es fundamental para implementar el algoritmo de "divide and conquer" descrito en el proyecto, 
+ya que se encarga de la generación del laberinto, la exploración de sus secciones y la búsqueda del camino correcto hacia 
+la salida.
+Interfaz gráfica y manejo de eventos:
+"Implementada interfaz gráfica y manejo de eventos en el backend."
+Descripción: Se implementó la interfaz gráfica y el manejo de eventos de teclado en el backend para permitir al jugador 
+moverse en el laberinto durante el juego. Esta parte del código proporciona una representación visual del 
+laberinto y su solución, lo que facilita la comprensión del algoritmo de divide and conquer.
