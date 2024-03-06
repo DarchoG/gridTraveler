@@ -27,8 +27,49 @@ def guardar_variables():
     N = int(entrada1.get())
     M = int(entrada2.get())
 
-    Resultados = Laberinto.generarMatriz(N,M);
-    Laberinto.imprimirArreglo(Resultados);
+    Resultados = Laberinto.generarMatriz(N, M)
+    # Eliminar todos los widgets en la ventana actual
+    for widget in ventana.winfo_children():
+        widget.destroy()
+
+    canvas = tk.Canvas(ventana, bg="white")
+    canvas.pack(fill=tk.BOTH, expand=True) # Hacer que el canvas se ajuste al tamaño de la ventana
+
+    dibujar_cuadrados(Resultados, canvas)
+
+    # Crear un nuevo botón "Cambiar"
+    boton_cambiar = tk.Button(ventana, text="Cambiar", command = recrear_elementos)
+    boton_cambiar.pack()
+
+def recrear_elementos():
+    # Llamamos a la función habilitar_espacios para recrear los elementos
+    for widget in ventana.winfo_children():
+        widget.destroy()    
+
+    boton = tk.Button(ventana, text="Habilitar Espacios", command=habilitar_espacios)
+    boton.pack()
+
+    habilitar_espacios()
+
+def dibujar_cuadrados(matriz, canvas):
+
+    filas = len(matriz)
+    columnas = len(matriz[0])
+
+    ancho_canvas = canvas.winfo_width()
+    alto_canvas = canvas.winfo_height()
+
+    ancho_cuadrado = ancho_canvas / columnas
+    alto_cuadrado = alto_canvas / filas
+
+    for i in range(filas):
+        for j in range(columnas):
+            color = "black" if matriz[i][j] == 1 else "white"
+            x1 = j * ancho_cuadrado
+            y1 = i * alto_cuadrado
+            x2 = (j + 1) * ancho_cuadrado
+            y2 = (i + 1) * alto_cuadrado
+            canvas.create_rectangle(x1, y1, x2, y2, fill=color)
 
 # Crear la ventana
 ventana = tk.Tk()
