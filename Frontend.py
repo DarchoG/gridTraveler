@@ -3,7 +3,13 @@ import random
 def imprimirArreglo(Contenido):
 
     for i in range(len(Contenido) - 1, -1, -1):
-        print(Contenido[i]);
+        
+        for j in range(len(Contenido[i]) -1, -1, -1):
+
+            print(Contenido[i][j], end = " ");
+
+        print("");
+
 
 def generarSalida(N,M): #Cambiar unicamente uno de los dos parametros de borde, a fin de que la salida este en un borde.
 
@@ -45,12 +51,21 @@ def generarCamino(N,M): #Generar un camino valido, para posteriormente incorpora
         elif(Direccion == 4):
             Y -=1;
 
-        if(0 > X or  0 > Y): #Evitar que se salga de los bordes
+        if(0 > X): #Evitar que se salga de los bordes, es necesario actualizar el valor.
+            X += 1;
             continue;
-
-        if(X > N or Y > M): #Evitar que se salga de los bordes;
+        elif(0 > Y):
+            Y += 1;
             continue;
-
+        
+        if(X > N):            
+            X -= 1;
+            continue;
+        
+        elif(Y > M):
+            Y -= 1;
+            continue;
+        
         Auxiliar = [X,Y];
 
         if(not(Auxiliar in Camino)): #Evitar elementos repetidos;
