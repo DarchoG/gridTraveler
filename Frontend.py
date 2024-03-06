@@ -10,7 +10,6 @@ def imprimirArreglo(Contenido):
 
         print("");
 
-
 def generarSalida(N,M): #Cambiar unicamente uno de los dos parametros de borde, a fin de que la salida este en un borde.
 
     Random = random.randint(1, 2);
@@ -108,5 +107,3 @@ def generarMatriz(N,M):
     Laberinto[X][Y] = 2
 
     return Laberinto; 
-
-imprimirArreglo(generarMatriz(7,7))
