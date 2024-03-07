@@ -56,15 +56,26 @@ def dibujar_cuadrados(matriz, canvas):
     filas = len(matriz)
     columnas = len(matriz[0])
 
+    ventana.update_idletasks() # Permite que la ventana se cargue completamente
     ancho_canvas = canvas.winfo_width()
     alto_canvas = canvas.winfo_height()
 
     ancho_cuadrado = ancho_canvas / columnas
     alto_cuadrado = alto_canvas / filas
 
+    print(ancho_cuadrado)
+    print(alto_cuadrado)
+
     for i in range(filas):
         for j in range(columnas):
-            color = "black" if matriz[i][j] == 1 else "white"
+
+            if(matriz[i][j] == 0):
+                color = "white"
+            elif(matriz[i][j] == -1):
+                color = "red"
+            else:
+                color = "blue"    
+
             x1 = j * ancho_cuadrado
             y1 = i * alto_cuadrado
             x2 = (j + 1) * ancho_cuadrado
