@@ -72,7 +72,7 @@ def dibujar_cuadrados(matriz, canvas):
             if(matriz[i][j] == 0):
                 color = "white"
             elif(matriz[i][j] == -1):
-                color = "red"
+                color = "black"
             else:
                 color = "blue"    
 
@@ -85,9 +85,18 @@ def dibujar_cuadrados(matriz, canvas):
 # Crear la ventana
 ventana = tk.Tk()
 ventana.title("Laberinto")
+ventana.geometry("800x600")
 
 # Crear el botón
 boton = tk.Button(ventana, text="Habilitar Espacios", command=habilitar_espacios)
 boton.pack()
+
+#ventana.update_idletasks()
+#Ancho = ventana.winfo_reqwidth();
+#Altura = ventana.winfo_reqheight();
+#x = (Ancho - boton.winfo_reqwidth()) / 2;
+#y = (Altura - boton.winfo_reqwidth()) / 2;
+
+boton.place();
 
 ventana.mainloop()
