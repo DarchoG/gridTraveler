@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import ttk
 import Laberinto
 
 def habilitar_espacios():
@@ -84,19 +85,21 @@ def dibujar_cuadrados(matriz, canvas):
 
 # Crear la ventana
 ventana = tk.Tk()
-ventana.title("Laberinto")
-ventana.geometry("800x600")
+ventana.title("Ejemplo de Ventana con Tkinter")
+
+Ancho = ventana.winfo_screenwidth()
+Largo = ventana.winfo_screenheight();
+ventana.geometry(str(int(Ancho * 40 / 100))+ "x" + str(int(Largo * 60 / 100)))
+
+gris = tk.Frame(ventana, bg = 'gray')
+gris.place(relwidth = 1, relheight = 1)
+
+style = ttk.Style()
+style.configure('TFrame', background='gray') # Fondo gris\
+style.configure('TButton', borderwidth=2, relief='solid', foreground='black', background='gray')
 
 # Crear el botón
-boton = tk.Button(ventana, text="Habilitar Espacios", command=habilitar_espacios)
+boton = ttk.Button(ventana, text="Habilitar Espacios", command=habilitar_espacios, style = 'TButton')
 boton.pack()
-
-#ventana.update_idletasks()
-#Ancho = ventana.winfo_reqwidth();
-#Altura = ventana.winfo_reqheight();
-#x = (Ancho - boton.winfo_reqwidth()) / 2;
-#y = (Altura - boton.winfo_reqwidth()) / 2;
-
-boton.place();
 
 ventana.mainloop()
