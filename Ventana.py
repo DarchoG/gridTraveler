@@ -2,15 +2,34 @@ import tkinter as tk
 from tkinter import ttk
 import Laberinto
 
-def habilitar_espacios():
+def habilitar_espacios(ventana, boton):
     global entrada1, entrada2, boton2
+
+    
+
+    boton.destroy();
 
     entrada1 = tk.Entry(ventana)
     entrada1.pack()
     entrada2 = tk.Entry(ventana)
     entrada2.pack()
 
-    boton2 = tk.Button(ventana, text="Botón 2", state=tk.DISABLED, command=guardar_variables)
+    boton2 = tk.Button(
+
+        ventana, #Ventana pertenencia
+        text="Generar Laberinto", #Texto 
+        background="#373739", #Fondo
+        foreground="white", # Color de la letra
+        #state=tk.DISABLED,
+        font=("Helvetica", 12, "bold"),
+        width = proporcionAncho(1.95, ventana), #Obtener Proporciones
+        height = proporcionLargo(0.3, ventana), #Obtener Proporciones
+        borderwidth=0,
+        cursor = "hand2",
+        command= lambda : guardar_variables(ventana)
+        
+    )
+
     boton2.pack()
 
     def verificar_contenido(event=None):
@@ -22,7 +41,7 @@ def habilitar_espacios():
     entrada1.bind("<KeyRelease>", verificar_contenido)
     entrada2.bind("<KeyRelease>", verificar_contenido)
 
-def guardar_variables():
+def guardar_variables(ventana):
     global entrada1, entrada2
 
     N = int(entrada1.get())
@@ -42,16 +61,11 @@ def guardar_variables():
     boton_cambiar = tk.Button(ventana, text="Cambiar", command = recrear_elementos)
     boton_cambiar.pack()
 
-def recrear_elementos():
+def recrear_elementos(ventana):
     # Llamamos a la función habilitar_espacios para recrear los elementos
     for widget in ventana.winfo_children():
         widget.destroy()    
-
-    boton = tk.Button(ventana, text="Habilitar Espacios", command=habilitar_espacios)
-    boton.pack()
-
-    habilitar_espacios()
-
+        
 def dibujar_cuadrados(matriz, canvas):
 
     filas = len(matriz)
@@ -83,23 +97,54 @@ def dibujar_cuadrados(matriz, canvas):
             y2 = (i + 1) * alto_cuadrado
             canvas.create_rectangle(x1, y1, x2, y2, fill=color)
 
-# Crear la ventana
-ventana = tk.Tk()
-ventana.title("Ejemplo de Ventana con Tkinter")
+def proporcionAncho(X, Ventana):
 
-Ancho = ventana.winfo_screenwidth()
-Largo = ventana.winfo_screenheight();
-ventana.geometry(str(int(Ancho * 40 / 100))+ "x" + str(int(Largo * 60 / 100)))
+    Ancho = Ventana.winfo_screenwidth();
 
-gris = tk.Frame(ventana, bg = 'gray')
-gris.place(relwidth = 1, relheight = 1)
+    return int((Ancho * X)/100);
 
-style = ttk.Style()
-style.configure('TFrame', background='gray') # Fondo gris\
-style.configure('TButton', borderwidth=2, relief='solid', foreground='black', background='gray')
+def proporcionLargo(X, Ventana):
 
-# Crear el botón
-boton = ttk.Button(ventana, text="Habilitar Espacios", command=habilitar_espacios, style = 'TButton')
-boton.pack()
+    Largo = Ventana.winfo_screenheight();
 
-ventana.mainloop()
+    return int((Largo * X)/100);
+
+
+def Inicio():
+
+    # Crear la ventana
+    ventana = tk.Tk()
+    ventana.title("Laberinto")
+
+    Ancho = ventana.winfo_screenwidth()
+    Largo = ventana.winfo_screenheight();
+    ventana.geometry(str(int(Ancho * 40 / 100))+ "x" + str(int(Largo * 60 / 100)))
+
+    gris = tk.Frame(ventana, bg = '#19191a')
+    gris.place(relwidth = 1, relheight = 1)
+
+    style = ttk.Style()
+    style.configure('TButton', borderwidth=2, relief='solid', foreground="white", background="#373739", padding=10, anchor = "center")
+
+    # Crear el botón
+
+    boton = tk.Button(
+
+        ventana, #Ventana pertenencia
+        text="Habilitar Espacios", #Texto 
+        background="#373739", #Fondo
+        foreground="white", # Color de la letra
+        font=("Helvetica", 12, "bold"),
+        width = proporcionAncho(3.25, ventana), #Obtener Proporciones
+        height = proporcionLargo(0.5, ventana), #Obtener Proporciones
+        borderwidth=0,
+        cursor = "hand2",
+        relief = tk.RAISED, 
+        command = lambda : habilitar_espacios(ventana, boton),
+        
+        )
+    boton.pack(expand=True)
+
+    ventana.mainloop()
+
+Inicio();
