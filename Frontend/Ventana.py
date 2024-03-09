@@ -2,10 +2,9 @@ import tkinter as tk
 from tkinter import ttk
 import Laberinto
 
-def Inicio(): #1° Screen
+def Inicio(ventana): #1° Screen
 
     # Crear la ventana
-    ventana = tk.Tk()
     ventana.title("Laberinto")
 
     Ancho = ventana.winfo_screenwidth()
@@ -61,16 +60,16 @@ def habilitar_espacios(ventana, boton): #2° Screen
     boton.destroy(); #Eliminar el boton previo
 
     entrada1 = tk.Entry(Main, font = "helvetica", foreground="gray") #Agregar un place holder con focus in y focus out con la ayuda de dos funciones
-    entrada1.pack()
     entrada1.insert(0, "Ancho: ")
     entrada1.bind("<FocusIn>", lambda event: Entrada(event, entrada1))
     entrada1.bind("<FocusOut>", lambda event: Salida(event, entrada1, 0))
+    entrada1.pack(pady=(0, proporcionLargo(2, ventana))) 
     
     entrada2 = tk.Entry(Main, font = "Helvetica", foreground="gray")
     entrada2.insert(0, "Largo: ")
     entrada2.bind("<FocusIn>", lambda event : Entrada(event, entrada2,))
     entrada2.bind("<FocusOut>", lambda event : Salida(event, entrada2, 1))
-    entrada2.pack()
+    entrada2.pack(pady=(0, proporcionLargo(2, ventana))) 
 
     boton2 = tk.Button(
 
@@ -144,7 +143,7 @@ def recrear_elementos(ventana):
     for widget in ventana.winfo_children():
         widget.destroy() 
 
-    Inicio()         
+    Inicio(ventana)         
         
 def dibujar_cuadrados(ventana, matriz, canvas):
 
@@ -174,4 +173,5 @@ def dibujar_cuadrados(ventana, matriz, canvas):
             y2 = (i + 1) * alto_cuadrado
             canvas.create_rectangle(x1, y1, x2, y2, fill=color)
 
-Inicio();
+ventana = tk.Tk()
+Inicio(ventana);
