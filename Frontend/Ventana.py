@@ -63,12 +63,14 @@ def habilitar_espacios(ventana, boton): #2° Screen
     entrada1.insert(0, "Ancho: ")
     entrada1.bind("<FocusIn>", lambda event: Entrada(event, entrada1))
     entrada1.bind("<FocusOut>", lambda event: Salida(event, entrada1, 0))
+    entrada1.bind("<KeyRelease>", lambda event: verificar_contenido(event))
     entrada1.pack(pady=(0, proporcionLargo(2, ventana))) 
     
     entrada2 = tk.Entry(Main, font = "Helvetica", foreground="gray")
     entrada2.insert(0, "Largo: ")
     entrada2.bind("<FocusIn>", lambda event : Entrada(event, entrada2,))
     entrada2.bind("<FocusOut>", lambda event : Salida(event, entrada2, 1))
+    entrada2.bind("<KeyRelease>", lambda event: verificar_contenido(event))
     entrada2.pack(pady=(0, proporcionLargo(2, ventana))) 
 
     boton2 = tk.Button(
@@ -95,9 +97,6 @@ def habilitar_espacios(ventana, boton): #2° Screen
         else:
             boton2.config(state=tk.DISABLED)  # Deshabilitar el segundo botón
 
-    entrada1.bind("<KeyRelease>", verificar_contenido)
-    entrada2.bind("<KeyRelease>", verificar_contenido)
-
 def Entrada(event, Entry):
 
     if Entry.get() == "Ancho: " or Entry.get() == 'Largo: ':
@@ -117,25 +116,74 @@ def Salida(event, Entry, ID):
 
         Entry.config(foreground="gray") 
 
+def verificar_contenido(event=None): #En cualquier evento
+
+    if entrada1.get() != "Ancho: " and entrada2.get() != "Largo: ":
+        boton2.config(state=tk.NORMAL)  # Habilitar el segundo botón
+
+    else:
+        boton2.config(state=tk.DISABLED)  # Deshabilitar el segundo botón        
+
 def guardar_variables(ventana): #3°Screen,
     global entrada1, entrada2
 
     N = int(entrada1.get())
     M = int(entrada2.get())
+    Largo = proporcionLargo(35, ventana);
+    Ancho = proporcionAncho(35, ventana);
 
     Resultados = Laberinto.generarMatriz(N, M)
     # Eliminar todos los widgets en la ventana actual
     for widget in ventana.winfo_children():
         widget.destroy()
 
-    canvas = tk.Canvas(ventana, bg="white")
-    canvas.pack(fill=tk.BOTH, expand=True) # Hacer que el canvas se ajuste al tamaño de la ventana
+    gris = tk.Frame(ventana, bg = '#19191a')
+    gris.place(relwidth = 1, relheight = 1)    
 
-    dibujar_cuadrados(ventana, Resultados, canvas)
+    canvas = tk.Canvas(ventana, bg='#19191a',  width = Ancho, height = Largo, background = '#EEEEEE', borderwidth=2, highlightthickness=0)
+
+    canvas.pack(pady=(proporcionAncho(2, ventana))) # Hacer que el canvas se ajuste al tamaño de la ventana
+
+    dibujar_cuadrados(ventana, Resultados, canvas, Ancho, Largo)
 
     # Crear un nuevo botón "Cambiar"
-    boton_cambiar = tk.Button(ventana, text="Cambiar",  command=lambda: recrear_elementos(ventana))
-    boton_cambiar.pack()
+
+    Main = tk.Frame(ventana, background= "#19191a");
+    Main.pack(expand=True);
+
+    boton_resolver = tk.Button(
+        
+        Main,
+        text="Resolver",
+        background="#373739", #Fondo
+        foreground="white", # Color de la letra
+        font=("Helvetica", 12, "bold"),
+        width = proporcionAncho(1.3, ventana), #Obtener Proporciones
+        height = proporcionLargo(0.2, ventana), #Obtener Proporciones
+        border = 0,
+        cursor = "hand2",
+        command=lambda: resolver(ventana))
+    
+    boton_cambiar = tk.Button(
+        
+        Main, 
+        text="Cambiar",
+        background="#373739", #Fondo
+        foreground="white", # Color de la letra
+        font=("Helvetica", 12, "bold"),
+        width = proporcionAncho(1.3, ventana), #Obtener Proporciones
+        height = proporcionLargo(0.2, ventana), #Obtener Proporciones
+        border = 0,
+        cursor = "hand2",  
+        command=lambda: recrear_elementos(ventana))
+    
+    boton_resolver.pack(side = 'left', padx=(0, proporcionAncho(1, ventana)))
+    boton_cambiar.pack(side = 'left', padx=(0, proporcionAncho(1, ventana)))
+
+def resolver(ventana):
+
+    #IMPLEMENTACION DEL BACKEND -------------------------------------------------------------------------------------
+    pass; 
 
 def recrear_elementos(ventana):
 
@@ -145,17 +193,13 @@ def recrear_elementos(ventana):
 
     Inicio(ventana)         
         
-def dibujar_cuadrados(ventana, matriz, canvas):
+def dibujar_cuadrados(ventana, matriz, canvas, ancho_canvas, largo_canvas):
 
     filas = len(matriz)
     columnas = len(matriz[0])
 
-    ventana.update_idletasks() # Permite que la ventana se cargue completamente
-    ancho_canvas = canvas.winfo_width()
-    alto_canvas = canvas.winfo_height()
-
     ancho_cuadrado = ancho_canvas / columnas
-    alto_cuadrado = alto_canvas / filas
+    alto_cuadrado = largo_canvas / filas
 
     for i in range(filas):
         for j in range(columnas):
@@ -163,7 +207,7 @@ def dibujar_cuadrados(ventana, matriz, canvas):
             if(matriz[i][j] == 0):
                 color = "white"
             elif(matriz[i][j] == -1):
-                color = "black"
+                color = "red"
             else:
                 color = "blue"    
 
