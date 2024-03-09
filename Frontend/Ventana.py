@@ -178,7 +178,7 @@ def guardar_variables(ventana): #3°Screen,
         command=lambda: recrear_elementos(ventana))
     
     boton_resolver.pack(side = 'left', padx=(0, proporcionAncho(1, ventana)))
-    boton_cambiar.pack(side = 'left', padx=(0, proporcionAncho(1, ventana)))
+    boton_cambiar.pack(side = 'left', padx=(proporcionAncho(1, ventana), 0))
 
 def resolver(ventana):
 
