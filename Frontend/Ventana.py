@@ -188,6 +188,7 @@ def resolver(ventana, CLaberinto, Resultados):
 
     Camino = CLaberinto.mejor_ruta();
     Pregunta = CLaberinto.generar_pregunta();
+    Tp = CLaberinto.generar_teletransporte();
 
     Bandera = False;
 
@@ -199,8 +200,10 @@ def resolver(ventana, CLaberinto, Resultados):
             Bandera = True;
     
     i, j = Pregunta;
+    Resultados[i][j] = 4; 
 
-    Resultados[i][j] = 4;    
+    i,j = Tp;
+    Resultados[i][j] = 5;   
 
     actualizar_canvas(ventana, Resultados)
 
@@ -266,18 +269,20 @@ def actualizar_canvas(ventana, matriz_resultados):
 
     for i in range(filas):
         for j in range(columnas):
-            if matriz_resultados[i][j] == 0:
+            if matriz_resultados[i][j] == 0: # Espacio Libre
                 color = "white"
-            elif matriz_resultados[i][j] == 1:
+            elif matriz_resultados[i][j] == 1: #Pared
                 color = "black"
-            elif matriz_resultados[i][j] == 2:
+            elif matriz_resultados[i][j] == 2: #Destino
                 color = "blue"
-            elif matriz_resultados[i][j] == 3:
-                color = "green"  # Color para la mejor ruta
-            elif matriz_resultados[i][j] == 4:
+            elif matriz_resultados[i][j] == 3: #Camino
+                color = "green"  
+            elif matriz_resultados[i][j] == 4: #Preugunta
                 color = 'orange'    
-            elif matriz_resultados[i][j] == -1:
-                color = "red"    
+            elif matriz_resultados[i][j] == 5: #Teletransporte
+                color = 'purple'
+            elif matriz_resultados[i][j] == -1: #Origen
+                color = 'red'            
             else:
                 color = "yellow"  # Default
             x1 = j * ancho_cuadrado
