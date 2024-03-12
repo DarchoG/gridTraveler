@@ -132,7 +132,9 @@ def guardar_variables(ventana): #3°Screen,
     Largo = proporcionLargo(35, ventana);
     Ancho = proporcionAncho(35, ventana);
 
-    Resultados = Laberinto.generarMatriz(N, M)
+    CLaberinto = Laberinto.Laberinto(N,M);
+
+    Resultados = CLaberinto.generar_laberinto()
     # Eliminar todos los widgets en la ventana actual
     for widget in ventana.winfo_children():
         widget.destroy()
@@ -162,7 +164,7 @@ def guardar_variables(ventana): #3°Screen,
         height = proporcionLargo(0.2, ventana), #Obtener Proporciones
         border = 0,
         cursor = "hand2",
-        command=lambda: resolver(ventana))
+        command=lambda: resolver(ventana, CLaberinto, Resultados))
     
     boton_cambiar = tk.Button(
         
@@ -180,10 +182,18 @@ def guardar_variables(ventana): #3°Screen,
     boton_resolver.pack(side = 'left', padx=(0, proporcionAncho(1, ventana)))
     boton_cambiar.pack(side = 'left', padx=(proporcionAncho(1, ventana), 0))
 
-def resolver(ventana):
+def resolver(ventana, CLaberinto, Resultados):
 
     #IMPLEMENTACION DEL BACKEND -------------------------------------------------------------------------------------
-    pass; 
+
+    Camino = CLaberinto.mejor_ruta();
+
+    for i in Camino:
+        j, k = i  #Desempacar Tupla
+        Resultados[j][k] = 3
+
+    actualizar_canvas(ventana, Resultados)    
+
 
 def recrear_elementos(ventana):
 
@@ -198,6 +208,8 @@ def dibujar_cuadrados(ventana, matriz, canvas, ancho_canvas, largo_canvas):
     filas = len(matriz)
     columnas = len(matriz[0])
 
+    matriz[0][0] = -1;
+
     ancho_cuadrado = ancho_canvas / columnas
     alto_cuadrado = largo_canvas / filas
 
@@ -206,11 +218,54 @@ def dibujar_cuadrados(ventana, matriz, canvas, ancho_canvas, largo_canvas):
 
             if(matriz[i][j] == 0):
                 color = "white"
+            elif(matriz[i][j] == 1):
+                color = "black"
+            elif(matriz[i][j] == 2):
+                color = "blue"
             elif(matriz[i][j] == -1):
-                color = "red"
-            else:
-                color = "blue"    
+                color = "red"        
 
+            x1 = j * ancho_cuadrado
+            y1 = i * alto_cuadrado
+            x2 = (j + 1) * ancho_cuadrado
+            y2 = (i + 1) * alto_cuadrado
+            canvas.create_rectangle(x1, y1, x2, y2, fill=color)
+
+def actualizar_canvas(ventana, matriz_resultados):
+
+    Filas = len(matriz_resultados) - 1;
+    columnas = len(matriz_resultados[0]) - 1;
+
+    matriz_resultados[Filas][columnas] = 2;
+
+    for widget in ventana.winfo_children():
+        if isinstance(widget, tk.Canvas):
+            canvas = widget
+            break
+
+    filas = len(matriz_resultados)
+    columnas = len(matriz_resultados[0])
+
+    ancho_canvas = canvas.winfo_width()
+    largo_canvas = canvas.winfo_height()
+
+    ancho_cuadrado = ancho_canvas / columnas
+    alto_cuadrado = largo_canvas / filas
+
+    for i in range(filas):
+        for j in range(columnas):
+            if matriz_resultados[i][j] == 0:
+                color = "white"
+            elif matriz_resultados[i][j] == 1:
+                color = "black"
+            elif matriz_resultados[i][j] == 2:
+                color = "blue"
+            elif matriz_resultados[i][j] == 3:
+                color = "green"  # Color para la mejor ruta
+            elif matriz_resultados[i][j] == -1:
+                color = "red"    
+            else:
+                color = "yellow"  # Default
             x1 = j * ancho_cuadrado
             y1 = i * alto_cuadrado
             x2 = (j + 1) * ancho_cuadrado
