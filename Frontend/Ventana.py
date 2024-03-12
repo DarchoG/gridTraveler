@@ -187,13 +187,25 @@ def resolver(ventana, CLaberinto, Resultados):
     #IMPLEMENTACION DEL BACKEND -------------------------------------------------------------------------------------
 
     Camino = CLaberinto.mejor_ruta();
+    Pregunta = CLaberinto.generar_pregunta();
+
+    Bandera = False;
 
     for i in Camino:
         j, k = i  #Desempacar Tupla
         Resultados[j][k] = 3
 
-    actualizar_canvas(ventana, Resultados)    
+        if(Pregunta == i):
+            Bandera = True;
+    
+    i, j = Pregunta;
 
+    Resultados[i][j] = 4;    
+
+    actualizar_canvas(ventana, Resultados)
+
+    if(Bandera):
+        CLaberinto.mostrar_pregunta(); 
 
 def recrear_elementos(ventana):
 
@@ -262,6 +274,8 @@ def actualizar_canvas(ventana, matriz_resultados):
                 color = "blue"
             elif matriz_resultados[i][j] == 3:
                 color = "green"  # Color para la mejor ruta
+            elif matriz_resultados[i][j] == 4:
+                color = 'orange'    
             elif matriz_resultados[i][j] == -1:
                 color = "red"    
             else:
