@@ -65,7 +65,6 @@ class Laberinto:
         def respuesta_si():
             messagebox.showinfo("Nada se compara al bicho :)", "¡SIIIIIIUUU! Puedes continuar:D")
             self.ventana_pregunta.destroy()
-            self.reanudar_movimiento_automatico()
 
         def respuesta_no():
             messagebox.showinfo("Pista: Es la persona mas humilde del mundo", "Incorrecto :( Vuelve a intentarlo.")
@@ -76,9 +75,6 @@ class Laberinto:
 
         boton_no = tk.Button(self.ventana_pregunta, text="Messi", command=respuesta_no)
         boton_no.pack()
-
-    def reanudar_movimiento_automatico(self):
-        self.ventana_juego.after(1000, self.mover_jugador_auto)
     
     def mejor_ruta(self):
         # Algoritmo de búsqueda en anchura (BFS)
