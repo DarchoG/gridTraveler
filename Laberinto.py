@@ -79,11 +79,6 @@ class Laberinto:
 
     def reanudar_movimiento_automatico(self):
         self.ventana_juego.after(1000, self.mover_jugador_auto)
-
-    def verificar_estado_juego(self):  
-        if self.pos_jugador == self.pos_salida:
-            messagebox.showinfo("FEKICIDADES!!!", "Has encontrado la salida :D")
-            root.destroy()
     
     def mejor_ruta(self):
         # Algoritmo de búsqueda en anchura (BFS)
@@ -151,41 +146,3 @@ class Laberinto:
                 
         # Esperar 1 segundo entre movimientos
         time.sleep(0.3)
-
-
-def comenzar_juego(num_filas, num_columnas):
-
-    juego = Laberinto(num_filas, num_columnas)
-
-    mejor_ruta = juego.mejor_ruta()
-    print(mejor_ruta)
-    juego.dibujar_laberinto(lienzo, mejor_ruta)
-
-    # Función para mover el jugador automáticamente
-    def mover_automatico():
-        for fila, columna in mejor_ruta:
-            if (fila, columna) == juego.pos_pregunta:
-                juego.mostrar_pregunta()
-                ventana_juego.wait_window(juego.ventana_pregunta)
-                time.sleep(1)  # Espera 1 segundo después de mostrar la pregunta
-            else:
-                # Verificar si el jugador está en la posición de teletransporte
-                if (fila, columna) == juego.pos_teletransporte:
-                    # Si el jugador está en la posición de teletransporte, teletransportarlo a una casilla aleatoria de la mejor ruta
-                    nuevas_posiciones = [pos for pos in mejor_ruta if pos != (fila, columna)]
-                    nueva_posicion = random.choice(nuevas_posiciones)
-                    juego.pos_jugador = nueva_posicion
-                else:
-                    juego.pos_jugador = fila, columna
-                    
-            if juego.pos_jugador == juego.pos_salida:
-                juego.verificar_estado_juego()
-
-            # Actualizar el lienzo con la nueva posición del jugador
-            lienzo.delete("all")
-            juego.dibujar_laberinto(lienzo, mejor_ruta)
-            ventana_juego.update()  # Actualiza la ventana para mostrar el movimiento
-            time.sleep(0.4)  #VELOCIDAD DEL JUGADOR
-            # Inicia el movimiento automático
-
-    mover_automatico()
